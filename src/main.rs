@@ -71,6 +71,8 @@ fn main() -> Result<(), Error> {
     generate_csv(&path_output, &players)?;
 
     pb.inc();
+    
+    println!("\nYou can find your data at {}", path_output.display());
 
     Ok(())
 }
