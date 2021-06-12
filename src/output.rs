@@ -45,17 +45,11 @@ where
     let mut sheet = sheet.into_iter().collect::<Vec<_>>();
     sheet.sort_by_key(|don| don.0.to_u32());
 
-    println!("maybe");
-
     if !PathBuf::from("./output").is_dir() {
         create_dir("./output")?;
     }
 
-    println!("oui");
-
     let mut wtr = Writer::from_path(path)?;
-
-    println!("non");
 
     wtr.write_record(generate_colums(max_level))?;
     for (name, lvls) in sheet {
