@@ -6,7 +6,7 @@ Donc is the solution. It take a clan tag (*ex : #22Q992VQG*) a will give you a n
 ![table](https://raw.githubusercontent.com/tatounee/Donc/main/screenshot/table.png)
 
 ## Setup
-Not yet written
+Not written yet
 
 
 ---
