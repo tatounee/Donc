@@ -65,7 +65,10 @@ fn main() -> Result<(), Error> {
 
     pb.message("Exporting data ");
 
-    generate_csv(format!("output/{} [{}].csv", clan.name, clan_tag), &players)?;
+    let mut path_output = env::current_dir()?;
+    path_output.push(format!("output\\{} [{}].csv", clan.name, clan_tag));
+
+    generate_csv(&path_output, &players)?;
 
     pb.inc();
 
