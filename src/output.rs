@@ -36,8 +36,8 @@ where
     for donation in donations {
         let lvls = sheet
             .entry(&donation.name)
-            .or_insert(vec![0u8; max_level + 1]);
         //* I don't know how supertroop's level work, so for now it's a little broken
+            .or_insert_with(|| vec![0u8; max_level + 1]);
         lvls[max_level - donation.level] += 1;
         lvls[max_level] += 1;
     }
