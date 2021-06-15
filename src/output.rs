@@ -6,7 +6,7 @@ use std::collections::HashMap;
 
 use csv::Writer;
 
-use crate::player::Player;
+use crate::player::{Player, DonationUtils};
 use crate::error::Error;
 
 const SECS_IN_SEASON: u64 = 3600 * 24 * 28;
