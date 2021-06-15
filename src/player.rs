@@ -5,6 +5,10 @@ use serde::{
     Deserialize,
 };
 
+const fn default_false() -> bool {
+    false
+}
+
 #[derive(Debug, Deserialize)]
 pub struct Donation {
     pub level: usize,
@@ -12,6 +16,9 @@ pub struct Donation {
     pub max_level: usize,
     pub name: String,
     pub village: String,
+    #[serde(rename = "superTroopIsActive")]
+    #[serde(default = "default_false")]
+    pub super_troop_is_active: bool,
 }
 
 
