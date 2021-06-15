@@ -1,6 +1,4 @@
-
 use std::fmt;
-
 
 pub enum Error {
     NoClanTagProvided,
@@ -9,7 +7,7 @@ pub enum Error {
     Io(std::io::Error),
     Dotenv(dotenv::Error),
     Reqwest(reqwest::Error),
-    Csv(csv::Error)
+    Csv(csv::Error),
 }
 
 impl fmt::Debug for Error {
@@ -26,7 +24,7 @@ impl fmt::Debug for Error {
                 } else {
                     e.fmt(f)
                 }
-            },
+            }
             Self::Csv(e) => e.fmt(f),
         }
     }

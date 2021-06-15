@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use std::fmt;
 
 use serde::{
-    de::{Deserializer, Error, MapAccess, Visitor, IgnoredAny},
+    de::{Deserializer, Error, IgnoredAny, MapAccess, Visitor},
     Deserialize,
 };
 
@@ -21,7 +21,6 @@ pub struct Donation {
     #[serde(default = "default_false")]
     pub super_troop_is_active: bool,
 }
-
 
 #[derive(Debug)]
 pub struct Player {
@@ -80,7 +79,8 @@ impl<'de> Deserialize<'de> for Player {
 
             fn visit_map<A>(self, mut map: A) -> Result<Self::Value, A::Error>
             where
-                    A: MapAccess<'de>, {
+                A: MapAccess<'de>,
+            {
                 let mut donations: Option<u32> = None;
                 let mut donable: Option<Vec<Donation>> = None;
                 let mut donable_counter = 0;

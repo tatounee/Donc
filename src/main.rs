@@ -5,8 +5,8 @@ mod player;
 
 use std::env;
 
-use pbr::ProgressBar;
 use dotenv::dotenv;
+use pbr::ProgressBar;
 use reqwest::{
     blocking::Client,
     header::{HeaderMap, ACCEPT, AUTHORIZATION},
@@ -25,7 +25,10 @@ fn main() -> Result<(), Error> {
         .ok_or(Error::NoApiTokenProvided)?
         .1;
 
-    let clan_tag = env::args().nth(1).ok_or(Error::NoClanTagProvided)?.replace("#", "");
+    let clan_tag = env::args()
+        .nth(1)
+        .ok_or(Error::NoClanTagProvided)?
+        .replace("#", "");
 
     let mut header = HeaderMap::new();
     header.insert(ACCEPT, "application/json".parse().unwrap());
@@ -33,7 +36,6 @@ fn main() -> Result<(), Error> {
         AUTHORIZATION,
         format!("Bearer {}", coc_token).parse().unwrap(),
     );
-
 
     let client = Client::new();
     let clan = client
@@ -71,7 +73,7 @@ fn main() -> Result<(), Error> {
     generate_csv(&path_output, &players)?;
 
     pb.inc();
-    
+
     println!("\nYou can find your data at {}", path_output.display());
 
     Ok(())
