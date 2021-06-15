@@ -44,6 +44,7 @@ impl DonationUtils for String {
             "Miner" => 12,
             "Electro Dragon" => 13,
             "Yeti" => 14,
+            "Dragon rider" => 15,
 
             "Minion" => 101,
             "Hog Rider" => 102,
