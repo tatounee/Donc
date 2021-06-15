@@ -49,6 +49,7 @@ where
         create_dir("./output")?;
     }
 
+    let mut category = 0;
     let mut wtr = Writer::from_path(path)?;
 
     wtr.write_record(generate_colums(max_level))?;
@@ -56,9 +57,11 @@ where
         if name.is_pet() {
             continue;
         }
-        let id = name.to_u32();
-        if id % 100 == 1 && id > 1 {
+        let id = name.as_u32();
+        let donation_category = id / 100;
+        if donation_category != category {
             wtr.write_record(vec![""; max_level + 2])?;
+            category = donation_category;
         }
         wtr.write_field(name)?;
         wtr.write_record(lvls.iter().map(|lvl| if lvl == &0 { String::new() } else { lvl.to_string() }))?;
