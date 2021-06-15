@@ -22,10 +22,10 @@ fn main() -> Result<(), Error> {
     dotenv().ok();
     let coc_token = env::vars()
         .find(|(k, _)| k == "COC_KEY_TOKEN")
-        .ok_or_else(|| Error::NoApiTokenProvided)?
+        .ok_or(Error::NoApiTokenProvided)?
         .1;
 
-    let clan_tag = env::args().nth(1).ok_or_else(|| Error::NoClanTagProvided)?.replace("#", "");
+    let clan_tag = env::args().nth(1).ok_or(Error::NoClanTagProvided)?.replace("#", "");
 
     let mut header = HeaderMap::new();
     header.insert(ACCEPT, "application/json".parse().unwrap());
