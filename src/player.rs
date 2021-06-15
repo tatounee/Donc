@@ -105,8 +105,8 @@ impl<'de> Deserialize<'de> for Player {
                 Ok(Player{donations, donable})
             }
         }
-        
-        const FIELDS: &'static [&'static str] = &["donations", "donable"];
+
+        const FIELDS: &[&str] = &["donations", "donable"];
         deserializer.deserialize_struct("Player", FIELDS, PlayerVisitor)
     }
 }
