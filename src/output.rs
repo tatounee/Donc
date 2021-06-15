@@ -22,7 +22,6 @@ where
         .filter(|p| p.donations > 100 * !is_season_starting() as u32)
         .map(|p| &p.donable)
         .flatten()
-        .filter(|d| d.village == "home")
         .collect::<Vec<_>>();
 
     let max_level = donations
@@ -36,7 +35,6 @@ where
     for donation in donations {
         let lvls = sheet
             .entry(&donation.name)
-        //* I don't know how supertroop's level work, so for now it's a little broken
             .or_insert_with(|| vec![0u8; max_level + 1]);
         lvls[max_level - donation.level] += 1;
         lvls[max_level] += 1;

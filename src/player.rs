@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use std::fmt;
 
 use serde::{
@@ -108,8 +109,31 @@ impl<'de> Deserialize<'de> for Player {
                     }
                 }
                 let donations = donations.ok_or_else(|| Error::missing_field("donations"))?;
+
+                let mut real_level = HashMap::new();
                 let donable = donable.ok_or_else(|| Error::missing_field("donations"))?;
-                Ok(Player{donations, donable})
+                for d in donable.iter() {
+                    if d.village == "home" {
+                        if let Some(st) = d.get_super_troop() {
+                            real_level.insert(st, d.level);
+                        }
+                    }
+                }
+                let donable = donable
+                    .into_iter()
+                    .filter_map(|mut d| {
+                        if d.is_super_troop() && !d.super_troop_is_active || d.village != "home" {
+                            None
+                        } else {
+                            if d.super_troop_is_active {
+                                d.level = real_level[&d.name];
+                            }
+                            Some(d)
+                        }
+                    })
+                    .collect::<Vec<Donation>>();
+
+                Ok(Player { donations, donable })
             }
         }
 
