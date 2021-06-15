@@ -112,9 +112,14 @@ impl<'de> Deserialize<'de> for Player {
 }
 
 pub trait DonationUtils {
+    type Output;
+
     fn as_u32(&self) -> u32;
     fn is_pet(&self) -> bool;
+    fn is_super_troop(&self) -> bool;
+    fn get_super_troop(&self) -> Option<Self::Output>;
 }
+
 impl DonationUtils for String {
     type Output = String;
 
@@ -198,4 +203,50 @@ impl DonationUtils for String {
         id > 200 && id <= 300
     }
 
+    fn get_super_troop(&self) -> Option<Self::Output> {
+        if self.as_u32() > 200 {
+            None
+        } else {
+            match self.as_ref() {
+                "Barbarian" => Some("Super Barbarian".to_owned()),
+                "Archer" => Some("Super Archer".to_owned()),
+                "Goblin" => Some("Sneaky Goblin".to_owned()),
+                "Giant" => Some("Super Giant".to_owned()),
+                "Wall Breaker" => Some("Super Wall Breaker".to_owned()),
+                "Balloon" => Some("Rocket balloon".to_owned()),
+                "Wizard" => Some("Super Wizard".to_owned()),
+                "Baby Dragon" => Some("Inferno Dragon".to_owned()),
+                "Minion" => Some("Super Minion".to_owned()),
+                "Valkyrie" => Some("Super Valkyrie".to_owned()),
+                "Witch" => Some("Super Witch".to_owned()),
+                "Lava Hound" => Some("Ice Hound".to_owned()),
+
+                _ => None,
+            }
+        }
+    }
+}
+
+impl DonationUtils for Donation {
+    type Output = String;
+
+    #[inline]
+    fn as_u32(&self) -> u32 {
+        self.name.as_u32()
+    }
+
+    #[inline]
+    fn is_pet(&self) -> bool {
+        self.name.is_pet()
+    }
+
+    #[inline]
+    fn is_super_troop(&self) -> bool {
+        self.name.is_super_troop()
+    }
+
+    #[inline]
+    fn get_super_troop(&self) -> Option<Self::Output> {
+        self.name.get_super_troop()
+    }
 }
