@@ -9,7 +9,7 @@ Donc is the solution. It takes a clan tag (*ex : #22Q992VQG*) a will give you a 
 
 ### Downloading
 - **Windows**
-You can find the latest version of Donc in the [release tab]().
+You can find the latest version of Donc in the [release tab](https://github.com/Tatounee/Donc/releases/tag/v.1.0).
 
 - **Linux and macOS**
 You will need to compile yourself Donc with rust.
