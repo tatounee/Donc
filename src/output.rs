@@ -5,8 +5,9 @@ use std::time::{SystemTime, UNIX_EPOCH};
 
 use csv::Writer;
 
+use crate::donation::DonationUtils;
 use crate::error::Error;
-use crate::player::{DonationUtils, Player};
+use crate::player::Player;
 
 const SECS_IN_SEASON: u64 = 3600 * 24 * 28;
 const ONE_RESET_SEASON: u64 = 1622433600;

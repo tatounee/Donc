@@ -1,4 +1,5 @@
 mod clan;
+mod donation;
 mod error;
 mod output;
 mod player;
