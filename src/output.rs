@@ -43,7 +43,7 @@ where
     }
 
     let mut sheet = sheet.into_iter().collect::<Vec<_>>();
-    sheet.sort_by_key(|don| don.0.to_u32());
+    sheet.sort_by_key(|don| don.0.as_u32());
 
     if !PathBuf::from("./output").is_dir() {
         create_dir("./output")?;
