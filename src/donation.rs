@@ -119,7 +119,7 @@ impl DonationUtils for String {
                 "Goblin" => Some("Sneaky Goblin".to_owned()),
                 "Giant" => Some("Super Giant".to_owned()),
                 "Wall Breaker" => Some("Super Wall Breaker".to_owned()),
-                "Balloon" => Some("Rocket balloon".to_owned()),
+                "Balloon" => Some("Rocket Balloon".to_owned()),
                 "Wizard" => Some("Super Wizard".to_owned()),
                 "Baby Dragon" => Some("Inferno Dragon".to_owned()),
                 "Minion" => Some("Super Minion".to_owned()),
