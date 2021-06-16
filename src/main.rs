@@ -9,9 +9,10 @@ use std::env;
 use dotenv::dotenv;
 use pbr::ProgressBar;
 use reqwest::{
-    blocking::Client,
     header::{HeaderMap, ACCEPT, AUTHORIZATION},
+    Client,
 };
+use tokio::sync::mpsc;
 
 use clan::Clan;
 use error::Error;
@@ -19,7 +20,8 @@ use output::generate_csv;
 
 use crate::player::Player;
 
-fn main() -> Result<(), Error> {
+#[tokio::main]
+async fn main() -> Result<(), Error> {
     dotenv().ok();
     let coc_token = env::vars()
         .find(|(k, _)| k == "COC_KEY_TOKEN")
@@ -45,24 +47,42 @@ fn main() -> Result<(), Error> {
             clan_tag
         ))
         .headers(header.clone())
-        .send()?
-        .json::<Clan>()?;
+        .send()
+        .await?
+        .json::<Clan>()
+        .await?;
 
     let mut pb = ProgressBar::new(clan.members.len() as u64 + 1);
     pb.message("Getting Player info ");
 
-    let mut players = vec![];
+    let (tx, mut rx) = mpsc::channel(50);
+
+    let mut players_handle = vec![];
     for member in clan.members {
-        players.push(
-            client
-                .get(format!(
-                    "https://api.clashofclans.com/v1/players/{}",
-                    member.tag.replace("#", "%23")
-                ))
-                .headers(header.clone())
-                .send()?
-                .json::<Player>()?,
-        );
+        let sender = tx.clone();
+        let client = client.clone();
+        let header = header.clone();
+        players_handle.push(tokio::spawn(async move {
+            sender
+                .send(
+                    client
+                        .get(format!(
+                            "https://api.clashofclans.com/v1/players/{}",
+                            member.tag.replace("#", "%23")
+                        ))
+                        .headers(header)
+                        .send()
+                        .await,
+                )
+                .await
+        }))
+    }
+
+    drop(tx);
+
+    let mut players = vec![];
+    while let Some(resp) = rx.recv().await {
+        players.push(resp?.json::<Player>().await?);
         pb.inc();
     }
 
